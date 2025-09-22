@@ -1,3 +1,8 @@
+using BLL.Services;
+using DAL.Data.Contexts;
+using DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace PL
 {
     public class Program
@@ -8,6 +13,18 @@ namespace PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            #region Configuring Services
+
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer(builder.Configuration.
+                GetConnectionString("DefaultConnection"))
+                );
+
+            builder.Services.AddScoped<IDepartmentRepository , DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentService , DepartmentService>();
+
+            #endregion
 
             var app = builder.Build();
 
