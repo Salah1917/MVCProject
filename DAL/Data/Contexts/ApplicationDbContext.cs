@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using DAL.Models.DepartmentModule;
+using DAL.Models.EmployeeModule;
 
 namespace DAL.Data.Contexts
 {
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
     {
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         override protected void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfigurationsFromAssembly(typeOf(ApplicatioDbContext).Assembly);

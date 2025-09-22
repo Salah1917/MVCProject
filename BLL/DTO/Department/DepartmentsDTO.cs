@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.DTO
+namespace BLL.DTO.Department
 {
-    public class CreatedDepartmentDTO
+    public class DepartmentsDTO
     {
+        public int Id { get; set; }
+
         public string Name { get; set; } = null!;
 
         public string Code { get; set; } = null!;
@@ -15,5 +17,6 @@ namespace BLL.DTO
         public string? Description { get; set; }
 
         public DateTime? DateOfCreation { get; set; }
+
     }
 }

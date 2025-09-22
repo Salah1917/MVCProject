@@ -1,5 +1,6 @@
 ﻿using BLL.DTO;
-using BLL.Services;
+using BLL.DTO.Department;
+using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using PL.ViewModels.DepartmentViewModels;
 

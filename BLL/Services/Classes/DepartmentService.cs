@@ -1,13 +1,14 @@
-﻿using BLL.DTO;
+﻿using BLL.DTO.Department;
 using BLL.Factories;
-using DAL.Repositories;
+using BLL.Services.Interfaces;
+using DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.Services
+namespace BLL.Services.Classes
 {
     public class DepartmentService(IDepartmentRepository _departmentRepository) : IDepartmentService
     {

@@ -1,6 +1,8 @@
-using BLL.Services;
+using BLL.Services.Classes;
+using BLL.Services.Interfaces;
 using DAL.Data.Contexts;
-using DAL.Repositories;
+using DAL.Repositories.Classes;
+using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace PL
@@ -23,6 +25,8 @@ namespace PL
 
             builder.Services.AddScoped<IDepartmentRepository , DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService , DepartmentService>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
 
             #endregion
 

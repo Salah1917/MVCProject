@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Models
+namespace BLL.DTO.Department
 {
-    public class Department : BaseEntity
+    public class CreatedDepartmentDTO
     {
         public string Name { get; set; } = null!;
-        
+
         public string Code { get; set; } = null!;
-  
+
         public string? Description { get; set; }
 
+        public DateTime? DateOfCreation { get; set; }
     }
 }
