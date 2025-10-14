@@ -7,10 +7,12 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using DAL.Models.DepartmentModule;
 using DAL.Models.EmployeeModule;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace DAL.Data.Contexts
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -19,6 +21,7 @@ namespace DAL.Data.Contexts
             //modelBuilder.ApplyConfigurationsFromAssembly(typeOf(ApplicatioDbContext).Assembly);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

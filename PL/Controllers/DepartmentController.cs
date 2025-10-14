@@ -37,12 +37,20 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreatedDepartmentDTO departmentDTO)
+        public IActionResult Create(DepartmentViewModel departmentVM)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var departmentDTO = new CreatedDepartmentDTO()
+                    {
+                        Name = departmentVM.Name,
+                        Code = departmentVM.Code,
+                        DateOfCreation = departmentVM.DateOfCreation,
+                        Description = departmentVM.Description
+                    };
+
                     int result = departmentService.AddDepartment(departmentDTO);
                     if (result > 0)
                     {
@@ -71,7 +79,7 @@ namespace PL.Controllers
                     }
                 }
             }
-            return View(departmentDTO);
+            return View(departmentVM);
 
         }
         #endregion
@@ -115,7 +123,7 @@ namespace PL.Controllers
             if (Department is null)
                 return NotFound();
 
-            var DepartmentViewModel = new DepartmentEditViewModel()
+            var DepartmentViewModel = new DepartmentViewModel()
             {
                 Code = Department.Code,
                 Name = Department.Name,
@@ -128,7 +136,7 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute]int? id, DepartmentEditViewModel DepartmentViewModel)
+        public IActionResult Edit([FromRoute]int? id, DepartmentViewModel DepartmentViewModel)
         {
             if (!ModelState.IsValid)
                 return View(DepartmentViewModel);

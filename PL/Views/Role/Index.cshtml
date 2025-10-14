@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model List<IdentityRole>
+@{
+    ViewData["Title"] = "All Roles";
+}
+
+<h2>All Roles</h2>
+
+<form method="get">
+    <input type="text" name="search" placeholder="Role's Name" />
+    <button type="submit">Search</button>
+    <a href="/Role/Create" class="btn btn-success">Add New Role</a>
+</form>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Role Name</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var role in Model)
+    {
+        <tr>
+            <td>@role.Id</td>
+            <td>@role.Name</td>
+            <td>
+                <a href="/Role/Details/@role.Id">Details</a> |
+                <a href="/Role/Edit/@role.Id">Edit</a> |
+                <a href="/Role/Delete/@role.Id">Delete</a>
+            </td>
+        </tr>
+    }
+</table>

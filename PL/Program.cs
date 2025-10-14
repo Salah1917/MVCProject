@@ -1,9 +1,11 @@
+using BLL;
 using BLL.Services.Classes;
 using BLL.Services.Interfaces;
 using DAL.Data.Contexts;
 using DAL.Repositories.Classes;
 using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace PL
 {
@@ -25,7 +27,14 @@ namespace PL
 
             builder.Services.AddScoped<IDepartmentRepository , DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService , DepartmentService>();
+            builder.Services.AddScoped<IEmployeeService , EmployeeService>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
 
 
             #endregion
