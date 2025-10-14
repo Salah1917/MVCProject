@@ -6,6 +6,7 @@ using DAL.Repositories.Classes;
 using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using DAL.Models.Shared;
 
 namespace PL
 {
@@ -31,8 +32,11 @@ namespace PL
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            //builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            { }).AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
 
@@ -57,7 +61,7 @@ namespace PL
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Account}/{action=Register}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
