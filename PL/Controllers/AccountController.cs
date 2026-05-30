@@ -1,10 +1,12 @@
 ﻿using DAL.Models.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PL.ViewModels.AccountViewModels;
 
 namespace PL.Controllers
 {
+    [AllowAnonymous]
     public class AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager) : Controller
     {
         #region Register
@@ -63,6 +65,17 @@ namespace PL.Controllers
             }
             return View(loginView);
         }
+        #endregion
+
+        #region Logout
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(Login));
+        }
+
         #endregion
     }
 }

@@ -1,11 +1,13 @@
 ﻿using BLL.DTO;
 using BLL.DTO.Department;
 using BLL.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PL.ViewModels.DepartmentViewModels;
 
 namespace PL.Controllers
 {
+    [Authorize]
     public class DepartmentController(IDepartmentService _departmentService, ILogger<DepartmentController> _logger, IWebHostEnvironment _environment) : Controller()
     {
         #region Properties

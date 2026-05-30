@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace PL.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -12,11 +15,11 @@ namespace PL.Controllers
             _roleManager = roleManager;
         }
 
-        public IActionResult Index(string search)
+        public async Task<IActionResult> Index(string search)
         {
             var roles = string.IsNullOrEmpty(search)
-                ? _roleManager.Roles.ToList()
-                : _roleManager.Roles.Where(r => r.Name.Contains(search)).ToList();
+                ? await _roleManager.Roles.ToListAsync()
+                : await _roleManager.Roles.Where(r => r.Name.Contains(search)).ToListAsync();
 
             return View(roles);
         }
@@ -27,21 +30,21 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(string roleName)
+        public async Task<IActionResult> Create(string roleName)
         {
             if (string.IsNullOrWhiteSpace(roleName))
                 return View();
 
-            var roleExists = _roleManager.RoleExistsAsync(roleName).Result;
+            var roleExists = await _roleManager.RoleExistsAsync(roleName);
             if (roleExists)
             {
                 ModelState.AddModelError("", "Role already exists.");
                 return View();
             }
 
-            var result = _roleManager.CreateAsync(new IdentityRole(roleName)).Result;
+            var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
             if (result.Succeeded)
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
 
             foreach (var error in result.Errors)
                 ModelState.AddModelError("", error.Description);
@@ -49,9 +52,9 @@ namespace PL.Controllers
             return View();
         }
 
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
-            var role = _roleManager.FindByIdAsync(id).Result;
+            var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
                 return NotFound();
 
@@ -59,17 +62,17 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(string id, string roleName)
+        public async Task<IActionResult> Edit(string id, string roleName)
         {
-            var role = _roleManager.FindByIdAsync(id).Result;
+            var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
                 return NotFound();
 
             role.Name = roleName;
-            var result = _roleManager.UpdateAsync(role).Result;
+            var result = await _roleManager.UpdateAsync(role);
 
             if (result.Succeeded)
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
 
             foreach (var error in result.Errors)
                 ModelState.AddModelError("", error.Description);
@@ -77,18 +80,18 @@ namespace PL.Controllers
             return View(role);
         }
 
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
-            var role = _roleManager.FindByIdAsync(id).Result;
+            var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
                 return NotFound();
 
             return View(role);
         }
 
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var role = _roleManager.FindByIdAsync(id).Result;
+            var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
                 return NotFound();
 
@@ -96,15 +99,15 @@ namespace PL.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var role = _roleManager.FindByIdAsync(id).Result;
+            var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
                 return NotFound();
 
-            var result = _roleManager.DeleteAsync(role).Result;
+            var result = await _roleManager.DeleteAsync(role);
             if (result.Succeeded)
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
 
             foreach (var error in result.Errors)
                 ModelState.AddModelError("", error.Description);

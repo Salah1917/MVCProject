@@ -1,9 +1,11 @@
 ﻿using BLL.DTO.Employee;
 using BLL.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PL.Controllers
 {
+    [Authorize]
     public class EmployeeController(IEmployeeService employeeService, IWebHostEnvironment environment, ILogger<EmployeeController> logger) : Controller
     {
         #region Properties
